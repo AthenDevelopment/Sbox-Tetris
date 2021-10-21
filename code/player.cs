@@ -44,7 +44,7 @@ namespace Tetris
 								Position = spawner.Position.SnapToGrid( 64.0f, true, true, true ),
 							};
 
-							block.PhysicsGroup.Mass = 10f;
+							block.PhysicsGroup.Mass = 5f;
 							block.Tags.Add( "InPlayerUse" );
 							cl.Pawn = block;
 							TimeSinceSpawn = 0;

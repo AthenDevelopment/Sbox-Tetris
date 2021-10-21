@@ -68,6 +68,7 @@ namespace Tetris
 					this.Client.Pawn = null;
 					this.Tags.Remove( "InPlayerUse" );
 					Log.Info( this.Client.Pawn );
+					this.PhysicsGroup.Mass = 20f; // Set Mass on placed block, so blocks don't do a painful slow-mo when falling off the board.
 					Event.Run( "tetris.CreateBlock", this.Client );
 					
 				}
@@ -79,12 +80,12 @@ namespace Tetris
 		{
 			base.Touch( other );
 			Log.Info( other.Name + ": " + other.IsClient );
-			if(!other.IsClient && !other.IsWorld && this.Tags.Has("Player") && other.ClassInfo.Name != "Delete_Field" )
+			if(!other.IsClient && !other.IsWorld && this.Tags.Has( "InPlayerUse" ) && other.ClassInfo.Name != "Delete_Field" && other.ClassInfo.Name != "Tetris_Wall" )
 			{
 				Log.Info( this.Client.Pawn );
 				this.Client.Pawn = null;
 				this.Tags.Remove( "InPlayerUse" );
-
+				this.PhysicsGroup.Mass = 20f; // Set Mass on placed block, so blocks don't do a painful slow-mo when falling off the board.
 				Event.Run( "tetris.CreateBlock", this.Client );
 			}
 		}

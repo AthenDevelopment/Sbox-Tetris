@@ -15,16 +15,22 @@ namespace Tetris
 			{
 				Log.Info( "called" );
 				var pos = this.Position;
-				Position = new Vector3( pos.x, pos.y + 40, pos.z ).SnapToGrid( 64.0f, true, true, true );
+				Position = new Vector3( pos.x, pos.y + 64, pos.z ).SnapToGrid( 64.0f, true, true, false );
 				ResetInterpolation();
 			} else if( Input.Pressed(InputButton.Right)) // D
 			{
 				var pos = this.Position;
-				Position = new Vector3( pos.x, pos.y - 40, pos.z ).SnapToGrid( 64.0f, true, true, true );
+				Position = new Vector3( pos.x, pos.y - 64, pos.z ).SnapToGrid( 64.0f, true, true, false );
 				ResetInterpolation();
 			} else if( Input.Pressed( InputButton.Back ) ) // S
 			{
-				
+				this.PhysicsGroup.Mass = 30f;
+
+
+			} else if ( Input.Released( InputButton.Back ) )
+			{
+				this.PhysicsGroup.Mass = 5f;
+
 			} else if ( Input.Pressed( InputButton.Menu ) ) // Q
 			{
 				Rotation = Rotation.RotateAroundAxis( Rotation.Backward, 90f );
@@ -32,7 +38,7 @@ namespace Tetris
 			{
 				Rotation = Rotation.RotateAroundAxis( Rotation.Forward, 90f );
 				Log.Info( "New Rotation: " + Rotation );
-			}
+			} 
 
 				base.Simulate( client );
 		}

@@ -12,7 +12,5 @@ namespace Tetris
 	[Hammer.Model]
 	public partial class TetrisWall : Entity
 	{
-		[Property]
-		public TetrisBlockType Type { get; set; }
 	}
 }
