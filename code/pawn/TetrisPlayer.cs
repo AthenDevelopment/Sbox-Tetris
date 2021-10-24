@@ -25,34 +25,30 @@ namespace Tetris
 		[Event( "tetris.CreateBlock" )]
 		public void CreateBlock( Client cl )
 		{
-			using ( Prediction.Off() )
+			if ( TimeSinceSpawn > 3 )
 			{
-				if(TimeSinceSpawn > 3)
+				Log.Info( cl );
+				var entities = All.Where( ( e ) => e is TetrisBlockSpawn );
+				var spawners = new List<Entity>();
+				spawners.AddRange( entities );
+				foreach ( var entity in spawners )
 				{
-					Log.Info( cl );
-					var entities = All.Where( ( e ) => e is TetrisBlockSpawn );
-					var spawners = new List<Entity>();
-					spawners.AddRange( entities );
-					foreach ( var entity in spawners )
+					if ( entity is TetrisBlockSpawn spawner )
 					{
-						if ( entity is TetrisBlockSpawn spawner )
+						//Log.Info( "Spawning " + spawner.Type.ToString() + " Block" );
+
+						var block = new TetrisBlock
 						{
-							Log.Info( "Spawning " + spawner.Type.ToString() + " Block" );
+							Position = spawner.Position.SnapToGrid( 64.0f, true, true, true ),
+						};
 
-							var block = new TetrisBlock
-							{
-								Position = spawner.Position.SnapToGrid( 64.0f, true, true, true ),
-							};
+						block.PhysicsGroup.Mass = 5f;
+						block.Tags.Add( "InPlayerUse" );
+						cl.Pawn = block;
+						TimeSinceSpawn = 0;
 
-							block.PhysicsGroup.Mass = 5f;
-							block.Tags.Add( "InPlayerUse" );
-							cl.Pawn = block;
-							TimeSinceSpawn = 0;
-
-						}
 					}
 				}
-				
 			}
 		}
 		public override void Simulate( Client cl )

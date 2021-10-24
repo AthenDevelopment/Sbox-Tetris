@@ -14,7 +14,7 @@ namespace Tetris
 			
 			FieldOfView = 70;
 			Pos = TetrisArena.CameraPos;
-			Rot = TargetRot;
+			Rot = TetrisArena.CameraRot;
 			Viewer = null;
 
 		}

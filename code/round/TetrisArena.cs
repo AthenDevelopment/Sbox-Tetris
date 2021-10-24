@@ -12,5 +12,12 @@ namespace Tetris
 				return Entity.All.First( e => e.Name.Equals( "camera_01" ) ).Position;
 			}
 		}
+		public Rotation CameraRot
+		{
+			get
+			{
+				return Entity.All.First( e => e.Name.Equals( "camera_01" ) ).Rotation;
+			}
+		}
 	}
 }

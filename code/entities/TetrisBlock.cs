@@ -18,7 +18,7 @@ namespace Tetris
 		{
 			base.Spawn();
 
-			SetModel( "models/tetris/zsblock.vmdl" ); // d:\steamlibrary\steamapps\common\sbox\addons\sbox-tetris
+			//SetModel( "models/tetris/zsblock.vmdl" ); // d:\steamlibrary\steamapps\common\sbox\addons\sbox-tetris
 			Random rnd = new Random();
 			string[] blockModels = { "zsblock.vmdl", "iblock.vmdl", "ljblock.vmdl", "tblock.vmdl" };
 
@@ -60,10 +60,7 @@ namespace Tetris
 			{
 				if (eventData.Entity.IsWorld && this.Tags.Has( "InPlayerUse" ) && eventData.Entity.ClassInfo.Name != "Tetris_Wall" )
 				{ 
-					DebugOverlay.Sphere( eventData.Pos, 100f, Color.Green, false, 10f );
-					//Log.Info( eventData.Entity.Client );
-
-					//Player.CreateBlock( eventData.Entity.Owner.Client )
+					//DebugOverlay.Sphere( eventData.Pos, 100f, Color.Green, false, 10f );
 
 					this.Client.Pawn = null;
 					this.Tags.Remove( "InPlayerUse" );
@@ -79,14 +76,19 @@ namespace Tetris
 		public override void Touch( Entity other )
 		{
 			base.Touch( other );
-			Log.Info( other.Name + ": " + other.IsClient );
+			//Log.Info( other.Name + ": " + other.IsClient );
 			if(!other.IsClient && !other.IsWorld && this.Tags.Has( "InPlayerUse" ) && other.ClassInfo.Name != "Delete_Field" && other.ClassInfo.Name != "Tetris_Wall" )
 			{
-				Log.Info( this.Client.Pawn );
+				//Log.Info( this.Client.Pawn );
 				this.Client.Pawn = null;
 				this.Tags.Remove( "InPlayerUse" );
 				this.PhysicsGroup.Mass = 20f; // Set Mass on placed block, so blocks don't do a painful slow-mo when falling off the board.
 				Event.Run( "tetris.CreateBlock", this.Client );
+			} else if (other.ClassInfo.Name == "Delete_Field" && this.Tags.Has("InPlayerUse"))
+			{
+				//this.Client.Pawn = null;
+				//Event.Run( "tetris.CreateBlock", this.Client );
+				//this.Delete();
 			}
 		}
 

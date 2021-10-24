@@ -42,16 +42,5 @@ namespace Tetris
 
 				base.Simulate( client );
 		}
-		/*public override void BuildInput( InputBuilder input )
-		{
-
-
-			
-
-		}
-		public void MoveBlock(float velocity)
-		{
-			velocity = 100;
-		}*/
 	}
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Threading;
+using Tetris.ui;
 
 namespace Tetris
 {
@@ -14,6 +15,11 @@ namespace Tetris
 			if(IsServer)
 			{
 				Log.Info( "Created Serverside" );
+				
+			}
+			if(IsClient)
+			{
+				//new Hud();
 			}
 		}
 		public override void ClientJoined( Client client )
@@ -21,6 +27,7 @@ namespace Tetris
 			var player = new TetrisPlayer();
 			client.Pawn = player;
 			player.Camera = new TetrisCamera();
+			
 
 			base.ClientJoined( client );
 		}
