@@ -24,7 +24,7 @@ namespace Tetris
 				ResetInterpolation();
 			} else if( Input.Pressed( InputButton.Back ) ) // S
 			{
-				this.PhysicsGroup.Mass = 30f;
+				this.PhysicsGroup.Mass = 70f;
 
 
 			} else if ( Input.Released( InputButton.Back ) )

@@ -11,10 +11,11 @@
 				[
 					{
 						_class = "RenderMeshFile"
+						name = "OBlock"
 						filename = "models/FBX/OBlock.fbx"
-						import_translation = [ 0.0, 0.0, 0.0 ]
-						import_rotation = [ 0.0, 0.0, 0.0 ]
-						import_scale = 1.0
+						import_translation = [ 0.0, 100.0, -100.0 ]
+						import_rotation = [ 0.0, 90.0, 0.0 ]
+						import_scale = 0.635
 						align_origin_x_type = "None"
 						align_origin_y_type = "None"
 						align_origin_z_type = "None"
@@ -24,6 +25,39 @@
 							exclude_by_default = false
 							exception_list = [  ]
 						}
+					},
+				]
+			},
+			{
+				_class = "MaterialGroupList"
+				children = 
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						remaps = 
+						[
+							{
+								from = ""
+								to = "dev/helper/reflectivity_90b.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = ""
+					},
+				]
+			},
+			{
+				_class = "PhysicsShapeList"
+				children = 
+				[
+					{
+						_class = "PhysicsShapeBox"
+						parent_bone = ""
+						surface_prop = "default"
+						collision_prop = "default"
+						origin = [ 0.647781, -0.060722, 0.035118 ]
+						angles = [ 0.0, 90.0, 0.0 ]
+						dimensions = [ 254.773895, 127.264908, 254.355026 ]
 					},
 				]
 			},

@@ -20,26 +20,49 @@ namespace Tetris
 
 			//SetModel( "models/tetris/zsblock.vmdl" ); // d:\steamlibrary\steamapps\common\sbox\addons\sbox-tetris
 			Random rnd = new Random();
-			string[] blockModels = { "zsblock.vmdl", "iblock.vmdl", "ljblock.vmdl", "tblock.vmdl" };
-
+			//string[] blockModels = { "zsblock.vmdl", "iblock.vmdl", "ljblock.vmdl", "tblock.vmdl", "oblock.vmdl", "" };
+			string[] blockModels = { "zBlock", "sBlock", "iBlock", "lBlock", "jBlock", "tBlock", "oBlock" };
+			//string[] blockModels = { "lBlock" };
 			int bIndex = rnd.Next( blockModels.Length );
 
-			SetModel( "models/tetris/" + blockModels[bIndex] );
+
+			//SetModel( "models/tetris/" + blockModels[bIndex] );
 
 
-			switch( blockModels[bIndex])
+			switch( blockModels[bIndex] )
 			{
-				case "zsblock.vmdl":
+				case "zBlock":
+					SetModel( "models/tetris/zsblock.vmdl" );
+					RenderColor = Color.Red;
+					Rotation = Rotation.RotateAroundAxis( Rotation.Right, -180f );
+					Rotation = Rotation.RotateAroundAxis( Rotation.Backward, 90f );
+					break;
+				case "sBlock":
+					SetModel( "models/tetris/zsblock.vmdl" );
 					RenderColor = Color.Green;
+					Rotation = Rotation.RotateAroundAxis( Rotation.Backward, -90f );
 					break;
-				case "iblock.vmdl":
-					RenderColor = Color.Cyan;
+				case "iBlock":
+					SetModel( "models/tetris/iblock.vmdl" );
+					RenderColor = Color.Blue;
 					break;
-				case "ljblock.vmdl":
+				case "lBlock":
+					SetModel( "models/tetris/ljblock.vmdl" );
+					Rotation = Rotation.RotateAroundAxis( Rotation.Left, 180f );
+					Rotation = Rotation.RotateAroundAxis( Rotation.Forward, 180f );
 					RenderColor = Color.Orange;
 					break;
-				case "tblock.vmdl":
-					RenderColor = Color.Red;
+				case "jBlock":
+					SetModel( "models/tetris/ljblock.vmdl" );
+					RenderColor = Color.Magenta;
+					break;
+				case "tBlock":
+					SetModel( "models/tetris/tblock.vmdl" );
+					RenderColor = Color.Cyan;
+					break;
+				case "oBlock":
+					SetModel( "models/tetris/oblock.vmdl" );
+					RenderColor = Color.Yellow;
 					break;
 			}
 
