@@ -7,6 +7,15 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
+	public enum RoundType
+	{
+		MENU,
+		LOBBY,
+		PREGAME,
+		GAME,
+		POSTGAME
+	}
+
 	public abstract partial class BaseRound : BaseNetworkable
 	{
 		public virtual int RoundDuration => 0;
