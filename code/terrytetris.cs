@@ -32,43 +32,7 @@ namespace Tetris
 			client.Pawn = player;
 			player.Camera = new TetrisCamera();
 
-			playerid++;
-			player.PlayerID = playerid;
-
-			assignPlayArea( client );
-
-
-
-
 			base.ClientJoined( client );
-		}
-		public void assignPlayArea( Client cl)
-		{
-			var spawns = All.OfType<TetrisBlockSpawn>().ToList();
-			Log.Info( spawns );
-
-
-			/*
-			var entities = All.Where( ( e ) => e is TetrisBlockSpawn );
-			var test = TetrisBlockSpawn.All;
-			var spawners = new List<TetrisBlockSpawn>();
-			spawners.Add( test );
-			foreach( var ent in spawners)
-			{
-				Log.Info( ent );
-			}*/
-			//var entities = spawners.Where( e => e.SpawnerOwner == 0 ).FirstOrDefault();
-			//Log.Info( entities );
-			//var selectedSpawner = spawners.SkipWhile( i => i.SpawnerOwner != 0).Skip( 1 ).FirstOrDefault();
-			//Log.Info( entities );
-			//entities.SpawnerOwner = cl.UserId;
-			//	Log.Info( entities.SpawnerOwner );
-			
-			//selectedSpawner = cl.Pawn;
-
-
-
-
 		}
 		[Event("tetris.ChangeRound")]
 		public void ChangeRound(BaseRound round)

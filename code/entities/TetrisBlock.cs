@@ -79,7 +79,7 @@ namespace Tetris
 			base.OnPhysicsCollision( eventData );
 			if(IsServer)
 			{
-				if (eventData.Entity.IsWorld && this.Tags.Has( "InPlayerUse" ) && eventData.Entity.ClassInfo.Name != "Tetris_Wall" )
+				if (eventData.Entity.IsWorld && this.Tags.Has( "InPlayerUse" ) && eventData.Entity.ClassInfo.Name != "Tetris_Wall" && eventData.Entity.ClassInfo.Name != "Tetris_Block_Spawn" )
 				{
 					//DebugOverlay.Sphere( eventData.Pos, 100f, Color.Green, false, 10f );
 					//Log.Info( "OnPhysicsCollision" );
