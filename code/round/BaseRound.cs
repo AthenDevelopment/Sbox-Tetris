@@ -48,6 +48,7 @@ namespace Tetris
 
 			OnFinish();
 		}
+		public virtual void OnPlayerJoin( Player player ) { }
 		public virtual void OnPlayerLeave( Player player )
 		{
 			Players.Remove( player );

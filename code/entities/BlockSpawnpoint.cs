@@ -12,7 +12,12 @@ namespace Tetris
 	[Hammer.Model]
 	public partial class TetrisBlockSpawn : ModelEntity
 	{
-		[Property]
-		public TetrisBlockType Type { get; set; }
+		[Net, Property] public int SpawnerOwner { get; set; }
+
+		public virtual void SetSpawnerOwner(int User)
+		{
+			if ( SpawnerOwner == 0 )
+				SpawnerOwner = User;
+		}
 	}
 }
