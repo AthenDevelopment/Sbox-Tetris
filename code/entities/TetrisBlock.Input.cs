@@ -9,18 +9,31 @@ namespace Tetris
 {
     public partial class TetrisBlock
 	{
+		[Net] public int posY { get; set; }
+
 		public override void Simulate( Client client )
 		{
 			if ( Input.Pressed( InputButton.Left ) ) // A
 			{
 				Log.Info( "called" );
 				var pos = this.Position;
-				Position = new Vector3( pos.x, pos.y + 64, pos.z ).SnapToGrid( 64.0f, true, true, false );
+				if(posY != 512)
+				{
+					posY = posY + 64;
+					Position = new Vector3( pos.x, pos.y + 64, pos.z ).SnapToGrid( 64.0f, true, true, false );
+				}
+				
+				
 				ResetInterpolation();
 			} else if( Input.Pressed(InputButton.Right)) // D
 			{
 				var pos = this.Position;
-				Position = new Vector3( pos.x, pos.y - 64, pos.z ).SnapToGrid( 64.0f, true, true, false );
+				if ( posY != -512 )
+				{
+					posY = posY - 64;
+					Position = new Vector3( pos.x, pos.y - 64, pos.z ).SnapToGrid( 64.0f, true, true, false );
+				}
+					
 				ResetInterpolation();
 			} else if( Input.Pressed( InputButton.Back ) ) // S
 			{

@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tetris
+namespace Tetris.entities
 {
 	[Library( "Delete_Field" )]
-	public partial class TetrisDeleteField : ModelEntity
+	[Hammer.Model]
+	public partial class TetrisDeleteField : BaseTrigger
 	{
 		public TetrisDeleteField()
 		{
@@ -18,16 +19,9 @@ namespace Tetris
 		public override void Spawn()
 		{
 			
-			//SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
+			SetupPhysicsFromModel( PhysicsMotionType.Static, false );
 			Transmit = TransmitType.Always;
 			base.Spawn();
-		}
-		public override void Touch( Entity other )
-		{
-
-
-
-			base.Touch( other );
 		}
 	}
 }

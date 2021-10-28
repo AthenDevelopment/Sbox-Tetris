@@ -18,12 +18,12 @@ namespace Tetris
 		{
 			if(Host.IsServer)
 			{
-				var spawns = Entity.All.OfType<TetrisBlockSpawn>().ToList().Shuffle();
+				var spawns = Entity.All.OfType<TetrisBlockSpawn>().ToList();
 				var players = Client.All.Select( ( client ) => client.Pawn as Player ).ToList();
 
 				foreach ( var player in players )
 				{
-
+					Log.Info( "Ran OnStart" );
 
 					if ( spawns.Count > 0 )
 					{

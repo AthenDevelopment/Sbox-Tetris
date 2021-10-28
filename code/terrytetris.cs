@@ -11,9 +11,15 @@ namespace Tetris
 {
 	public partial class TetrisGame : Sandbox.Game
 	{
-		private int playerid;
-		[Net] public TetrisBlockSpawn SpawnerOwner { get; set; }
+		
 		[Net] public BaseRound Round { get; private set; }
+
+		public static TetrisGame Instance
+		{
+			get => Current as TetrisGame;
+		}
+
+		[Net] public TetrisPlayer Player { get; private set; }
 		public TetrisGame()
 		{
 			if(IsServer)

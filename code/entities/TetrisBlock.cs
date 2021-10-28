@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Numerics;
-//using Tetris.UI;
+using Tetris;
 namespace Tetris
 {
 	[Library( "Tetris_Block" )]
 	public partial class TetrisBlock : ModelEntity
 	{
 
-		[Net] public bool Active {get; private set;}
-
-
+		[Net] public TetrisPlayer Player { get; private set; }
+		public TimeSince TimeSinceSpawn { get; private set; }
 		public override void Spawn()
 		{
 			base.Spawn();
@@ -74,46 +73,89 @@ namespace Tetris
 			Predictable = false;
 			EnableTouch = true;
 		}
+		public void CreateBlock( Client cl )
+		{
+			Log.Info( "Ran tetris.CreateBlockAfterTouch" );
+			//if ( !Host.IsServer ) return;
+
+			if ( TimeSinceSpawn > 3 )
+			{
+				var GetSpawnPoint = TetrisBlockSpawn.All.ToList().Find( e => e.Owner == cl.Pawn.Owner );
+				//Log.Info( GetSpawnPoint );
+				//var GetSpawnPoint = Entity.All.OfType<TetrisBlockSpawn>().ToList();
+				var block = new TetrisBlock
+				{
+					Position = GetSpawnPoint.Position.SnapToGrid( 64.0f, true, true, true ),
+				};
+
+				block.PhysicsGroup.Mass = 5f;
+				block.Tags.Add( "InPlayerUse" );
+
+				cl.Pawn = block;
+				TimeSinceSpawn = 0;
+
+			}
+
+		}
 		protected override void OnPhysicsCollision( CollisionEventData eventData )
 		{
-			base.OnPhysicsCollision( eventData );
+			
 			if(IsServer)
 			{
 				if (eventData.Entity.IsWorld && this.Tags.Has( "InPlayerUse" ) && eventData.Entity.ClassInfo.Name != "Tetris_Wall" && eventData.Entity.ClassInfo.Name != "Tetris_Block_Spawn" )
 				{
 					//DebugOverlay.Sphere( eventData.Pos, 100f, Color.Green, false, 10f );
-					//Log.Info( "OnPhysicsCollision" );
+					Log.Info( "Collided: " + eventData.Entity.Name );
 
-					
+					//Event.Run( "tetris.CreateBlockAfterTouch", this.Client );
+
+					Log.Info( this.Client.Pawn );
+
+						CreateBlock( this.Client );
+
+
+					//TetrisGame.Instance.Player?.CreateBlockAfterTouch( this.Client );
+
 					this.Tags.Remove( "InPlayerUse" );
 					//Log.Info( this.Client.Pawn );
 					this.PhysicsGroup.Mass = 20f; // Set Mass on placed block, so blocks don't do a painful slow-mo when falling off the board.
-					Event.Run( "tetris.CreateBlockNext", this.Client );
-					//this.Client.Pawn = null;
+					//TetrisGame.Instance.TetrisPlayer?.CreateBlockAfterTouch( this.Client );
 
+					
+
+
+					//this.Client.Pawn = null;
+					base.OnPhysicsCollision( eventData );
 				}
 
 
 			}
+			
 		}
 		public override void Touch( Entity other )
 		{
+			Log.Info( other.ClassInfo.Title );
 			base.Touch( other );
 			//Log.Info( other.Name + ": " + other.IsClient );
-			if(!other.IsClient && !other.IsWorld && this.Tags.Has( "InPlayerUse" ) && other.ClassInfo.Name != "Delete_Field" && other.ClassInfo.Name != "Tetris_Wall" )
+			if(!other.IsClient && !other.IsWorld && this.Tags.Has( "InPlayerUse" ) && other.ClassInfo.Name != "Delete_Field" && other.ClassInfo.Name != "Tetris_Wall" && other.ClassInfo.Name != "Tetris_Finish_Line" )
 			{
-				Log.Info( "Touch" );
+				
 				//Log.Info( this.Client.Pawn );
 				
 				this.Tags.Remove( "InPlayerUse" );
 				this.PhysicsGroup.Mass = 20f; // Set Mass on placed block, so blocks don't do a painful slow-mo when falling off the board.
-				Event.Run( "tetris.CreateBlockNext", this.Client );
+				Log.Info( "Touch: " + other.Name );
+				CreateBlock( this.Client );
 				//this.Client.Pawn = null;
-			} else if (other.ClassInfo.Name == "Delete_Field" && this.Tags.Has("InPlayerUse"))
+			} else if (other.ClassInfo.Name == "Delete_Field" && other.ClassInfo.Name != "Tetris_Finish_Line" && !this.Tags.Has( "InPlayerUse" ) )
 			{
-				//this.Client.Pawn = null;
-				//Event.Run( "tetris.CreateBlock", this.Client );
-				//this.Delete();
+				//CreateBlock( this.Client );
+				this.Delete();
+			}
+			else if ( other.ClassInfo.Name == "Delete_Field" && other.ClassInfo.Name != "Tetris_Finish_Line" && this.Tags.Has( "InPlayerUse" ) )
+			{
+				CreateBlock( this.Client );
+				this.Delete();
 			}
 		}
 

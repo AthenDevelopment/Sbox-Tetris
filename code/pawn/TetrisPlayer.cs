@@ -8,10 +8,11 @@ namespace Tetris
 {
 	public partial class TetrisPlayer : Player
 	{
-		[Net] public TetrisBlock Block { get; set; }
+		//[Net] public TetrisBlock Block { get; set; }
 		public TimeSince TimeSinceSpawn { get; private set; }
 		[Net] public int PlayerID { get; set; } = -1;
 		[Net] public BaseRound baseRound { get; set; }
+
 
 		public TetrisPlayer()
 		{
@@ -26,14 +27,18 @@ namespace Tetris
 
 			base.Respawn();
 		}
-		[Event( "tetris.CreateBlockNext" )]
+		//[Event( "tetris.CreateBlockAfterTouch" )]
 		public void CreateBlockAfterTouch(Client cl)
 		{
+			Log.Info( "Ran tetris.CreateBlockAfterTouch" );
+			//if ( !Host.IsServer ) return;
+			
 				if ( TimeSinceSpawn > 3 )
 				{
-					var GetSpawnPoint = Entity.All.OfType<TetrisBlockSpawn>().ToList().Find( e => e.Owner == cl.Pawn.Owner );
-					Log.Info( GetSpawnPoint );
-					var block = new TetrisBlock
+					var GetSpawnPoint = TetrisBlockSpawn.All.ToList().Find( e => e.Owner == cl.Pawn.Owner );
+				//Log.Info( GetSpawnPoint );
+				//var GetSpawnPoint = Entity.All.OfType<TetrisBlockSpawn>().ToList();
+				var block = new TetrisBlock
 					{
 						Position = GetSpawnPoint.Position.SnapToGrid( 64.0f, true, true, true ),
 					};
@@ -41,11 +46,13 @@ namespace Tetris
 					block.PhysicsGroup.Mass = 5f;
 					block.Tags.Add( "InPlayerUse" );
 
-					GetSpawnPoint.Client.Pawn = block;
+					cl.Pawn = block;
 					TimeSinceSpawn = 0;
 
 				}
+				
 		}
+
 		
 		
 	}
